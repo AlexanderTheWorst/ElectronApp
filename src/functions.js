@@ -35,8 +35,8 @@ function iterateToIndex(index) {
         let activeName = document.querySelector(`#__process__header__extra > .${active.id}`);
         let targetName = document.querySelector(`#__process__header__extra > .${target.id}`);
         
-        activeName.classList.remove("__active");
-        targetName.classList.add("__active");
+        if (activeName) activeName.classList.remove("__active");
+        if (targetName) targetName.classList.add("__active");
 
         active.classList.remove("__active");
         target.classList.add("__active");
@@ -51,7 +51,6 @@ function __process__click(__process__header) {
 }
 
 function updateSlider() {
-    
     iterateToIndex(slider_index);
 }
 
@@ -77,5 +76,3 @@ window.onkeydown = function (event) {
         updateSlider();
     }
 }
-
-updateSlider();

@@ -17,6 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
         __process__header__name.classList.add(header.id);
         document.getElementById("__process__header__extra").append(__process__header__name);
     })
+
+    updateSlider();
 });
 
 window.send = function (data) {
