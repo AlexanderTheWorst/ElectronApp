@@ -1,0 +1,22 @@
+{
+  "name": "electronapp",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "electron": "^34.0.1",
+    "electron-rebuild": "^3.2.9",
+    "ps-list": "^8.1.1"
+  },
+  "dependencies": {
+    "ref-napi": "^3.0.3",
+    "winax": "^3.6.1"
+  }
+}
