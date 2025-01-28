@@ -36,7 +36,7 @@ const createWindow = () => {
     gameDat = gameDat[0];
     let child = spawn(gameDat.exe, {
       stdio: "pipe",
-      cwd: gameDat.dir, // Ensure correct working directory
+      cwd: gameDat.dir,
     })
     child.on("close", () => console.log("Process closed."));
     child.on("spawn", () => console.log("Process spawned."));
@@ -113,13 +113,19 @@ function recurse(...paths) {
 
     files.forEach((file) => {
       const gamePath = path.join(glPath, file);
-      console.log(gamePath)
       let exe = findMainGameExe(gamePath)
       if (!exe || !fs.existsSync(exe)) return;
+      console.log(exe)
+
+      const fileIcon = require("extract-file-icon");
+      const icon = fileIcon(exe, 256);
+      console.log(icon)
+
       recursiveList.push({
         dir: gamePath,
         exe,
-        game: file
+        game: file,
+        icon: `./icons/${file.replaceAll(' ', '').toLowerCase()}.png`
       });
     });
   });

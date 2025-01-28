@@ -19,6 +19,7 @@ window.send = function (data) {
 
 API.onLoaded((event, data) => {
     data.games.forEach(game => {
-        __create__process__header(game.game, game.exe)
+        __create__process__header(game)
+        console.log(game)
     })
 });

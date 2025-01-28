@@ -43,7 +43,7 @@ function iterateToIndex(index) {
     }
 }
 
-function __create__process__header(gameName, gameExe) {
+function __create__process__header(gameDat) {
     /*
         <div id='__process__header__0' class='__process__header' data-name='Helldivers 2'>
             <img src='./icons/image.png' alt='Helldivers 2'>
@@ -57,12 +57,13 @@ function __create__process__header(gameName, gameExe) {
     container.id = `__process__header__${slider.length}`
     container.classList.add('__process__header')
     if (slider.length == 0) container.classList.add('__active');
-    container.setAttribute('data-name', gameName)
-    container.setAttribute('data-exe', gameExe)
+    container.setAttribute('data-name', gameDat.game)
+    container.setAttribute('data-exe', gameDat.exe)
 
     let img = document.createElement('img')
-    img.src = './icons/image.png'
-    img.alt = gameName
+    img.src = gameDat.icon
+    // img.src = `data:image/png;base64,${gameDat.icon}`;
+    img.alt = gameDat.game
 
     let button = document.createElement('button')
     button.class = '__process__header__button'
@@ -72,7 +73,7 @@ function __create__process__header(gameName, gameExe) {
     container.append(img)
     document.getElementById('__process__slider').append(container)
 
-    let name = gameName;
+    let name = gameDat.game;
     let process__name = document.createElement('p');
     process__name.innerText = name;
     process__name.classList.add('__process__header__name');
