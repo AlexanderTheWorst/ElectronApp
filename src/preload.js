@@ -9,7 +9,9 @@ contextBridge.exposeInMainWorld('versions', {
 })
 
 contextBridge.exposeInMainWorld('API', {
-  toMain: (args) => ipcRenderer.invoke('toMain', args),
+  hasLoaded: () => ipcRenderer.invoke('loaded'),
+  launchProcess: (processName, processDir) => ipcRenderer.invoke('launchProcess', processName, processDir),
 
-  onUpdate: (callback) => ipcRenderer.on('update', (_event, data) => callback(_event, data)),
+  onLoaded: (callback) => ipcRenderer.on('loaded', (_event, data) => callback(_event, data)),
+  processLaunched: (callback) => ipcRenderer.on('processLaunched', (_event, data) => callback(_event, data)),
 })

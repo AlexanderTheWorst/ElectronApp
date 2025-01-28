@@ -1,5 +1,5 @@
-// const hourClock = document.querySelector("#__fullSizeClock__Clock.top")
-// const minuteClock = document.querySelector("#__fullSizeClock__Clock.bottom")
+// const hourClock = document.querySelector('#__fullSizeClock__Clock.top')
+// const minuteClock = document.querySelector('#__fullSizeClock__Clock.bottom')
 
 // setInterval(() => {
 //     const hoursAndMinutes = getHoursAndMinutes()
@@ -12,8 +12,8 @@
 //     const date = new Date(timestamp)
 //     let hours = date.getHours()
 //     let minutes = date.getMinutes()
-//     if (hours.toString().length == 1) { hours = "0" + hours.toString() }
-//     if (minutes.toString().length == 1) { minutes = "0" + minutes.toString() }
+//     if (hours.toString().length == 1) { hours = '0' + hours.toString() }
+//     if (minutes.toString().length == 1) { minutes = '0' + minutes.toString() }
 //     return [hours, minutes]
 // }
 
@@ -21,7 +21,7 @@ let slider_index = 0;
 let slider_process_width = 140;
 let active_process_width = 190;
 
-const process_slider_element = document.getElementById("__process__slider")
+const process_slider_element = document.getElementById('__process__slider')
 
 function iterateToIndex(index) {
     let transform = Math.max(index - 1, 0) * slider_process_width + active_process_width + ((index - 1) * 16 + 12) - 36
@@ -34,18 +34,56 @@ function iterateToIndex(index) {
     if (active && target) {
         let activeName = document.querySelector(`#__process__header__extra > .${active.id}`);
         let targetName = document.querySelector(`#__process__header__extra > .${target.id}`);
-        
-        if (activeName) activeName.classList.remove("__active");
-        if (targetName) targetName.classList.add("__active");
 
-        active.classList.remove("__active");
-        target.classList.add("__active");
+        if (activeName) activeName.classList.remove('__active');
+        if (targetName) targetName.classList.add('__active');
+
+        active.classList.remove('__active');
+        target.classList.add('__active');
     }
+}
+
+function __create__process__header(gameName, gameExe) {
+    /*
+        <div id='__process__header__0' class='__process__header' data-name='Helldivers 2'>
+            <img src='./icons/image.png' alt='Helldivers 2'>
+            <button class='__process__header__button'></button>
+        </div>
+    */
+
+    let slider = document.querySelectorAll('.__process__header')
+
+    let container = document.createElement('div')
+    container.id = `__process__header__${slider.length}`
+    container.classList.add('__process__header')
+    if (slider.length == 0) container.classList.add('__active');
+    container.setAttribute('data-name', gameName)
+    container.setAttribute('data-exe', gameExe)
+
+    let img = document.createElement('img')
+    img.src = './icons/image.png'
+    img.alt = gameName
+
+    let button = document.createElement('button')
+    button.class = '__process__header__button'
+    button.onclick = () => __process__click(button)
+
+    container.append(button)
+    container.append(img)
+    document.getElementById('__process__slider').append(container)
+
+    let name = gameName;
+    let process__name = document.createElement('p');
+    process__name.innerText = name;
+    process__name.classList.add('__process__header__name');
+    if (slider.length == 0) process__name.classList.add('__active');
+    process__name.classList.add(container.id);
+    document.getElementById('__process__header__extra').append(process__name);
 }
 
 function __process__click(__process__header) {
     let id = __process__header.parentNode.id;
-    id = id.split("__process__header__")[1];
+    id = id.split('__process__header__')[1];
     slider_index = id;
     updateSlider();
 }
@@ -56,12 +94,12 @@ function updateSlider() {
 
 let lastTimestamp = 0;
 window.onkeydown = function (event) {
-    if ((event.key == "ArrowRight" || event.key == "ArrowLeft") && (Date.now() - lastTimestamp) >= 150) {
+    if ((event.key == 'ArrowRight' || event.key == 'ArrowLeft') && (Date.now() - lastTimestamp) >= 150) {
         switch (event.key) {
-            case ("ArrowLeft"):
+            case ('ArrowLeft'):
                 slider_index--;
                 break;
-            case ("ArrowRight"):
+            case ('ArrowRight'):
                 slider_index++;
                 break;
         }
@@ -70,9 +108,12 @@ window.onkeydown = function (event) {
 
         slider_index = Math.max(
             0,
-            Math.min(document.querySelectorAll(".__process__header").length - 1, slider_index)
+            Math.min(document.querySelectorAll('.__process__header').length - 1, slider_index)
         )
-    
+
         updateSlider();
+    } else if (event.key == 'Enter') {
+        let process = document.querySelector(`#__process__header__${slider_index}`)
+        API.launchProcess(process.getAttribute('data-name'), process.getAttribute('data-exe'))
     }
 }

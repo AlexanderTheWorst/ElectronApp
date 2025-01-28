@@ -8,19 +8,17 @@ document.addEventListener("DOMContentLoaded", () => {
         __process__button.onclick = () => __process__click(__process__button);
     })
 
-    document.querySelectorAll(`.__process__header`).forEach(header => {
-        let name = header.attributes["data-name"].value;
-        let __process__header__name = document.createElement("p");
-        __process__header__name.innerText = name;
-        __process__header__name.classList.add("__process__header__name");
-        // __process__header__name.classList.add("__active");
-        __process__header__name.classList.add(header.id);
-        document.getElementById("__process__header__extra").append(__process__header__name);
-    })
-
     updateSlider();
+    
+    API.hasLoaded();
 });
 
 window.send = function (data) {
     return window.API.toMain(data)
 }
+
+API.onLoaded((event, data) => {
+    data.games.forEach(game => {
+        __create__process__header(game.game, game.exe)
+    })
+});
