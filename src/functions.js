@@ -18,8 +18,8 @@
 // }
 
 let slider_index = 0;
-let slider_process_width = 140;
-let active_process_width = 190;
+let slider_process_width = 120;
+let active_process_width = 160;
 
 const process_slider_element = document.getElementById('__process__slider')
 

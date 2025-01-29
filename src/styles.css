@@ -2,8 +2,8 @@
     --SLIDER_TRANSITION_SPEED: 0.2s;
     --HEADER_TRANSITION_SPEED: 0.1s;
 
-    --ACTIVE_SIZE: 190px;
-    --INACTIVE_SIZE: 140px;
+    --ACTIVE_SIZE: 160px;
+    --INACTIVE_SIZE: 120px;
 }
 
 * {
@@ -37,7 +37,7 @@ button {
 #__process__header__extra {
     position: absolute;
     margin-top: 75px;
-    margin-left: 2rem;
+    margin-left: 8rem;
     width: var(--ACTIVE_SIZE);
     height: var(--ACTIVE_SIZE);
 
@@ -62,8 +62,8 @@ button {
     height: var(--ACTIVE_SIZE);
     margin-top: 75px;
     position: absolute;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 8rem;
+    padding-right: 8rem;
     display: flex;
     gap: 1rem;
 

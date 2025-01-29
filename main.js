@@ -115,11 +115,6 @@ function recurse(...paths) {
       const gamePath = path.join(glPath, file);
       let exe = findMainGameExe(gamePath)
       if (!exe || !fs.existsSync(exe)) return;
-      console.log(exe)
-
-      const fileIcon = require("extract-file-icon");
-      const icon = fileIcon(exe, 256);
-      console.log(icon)
 
       recursiveList.push({
         dir: gamePath,
