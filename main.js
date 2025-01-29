@@ -120,7 +120,7 @@ function recurse(...paths) {
         dir: gamePath,
         exe,
         game: file,
-        icon: `./icons/${file.replaceAll(' ', '').toLowerCase()}.png`
+        icon: `./assets/icons/${file.replaceAll(' ', '').toLowerCase()}.png`
       });
     });
   });

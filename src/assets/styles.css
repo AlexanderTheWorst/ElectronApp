@@ -69,7 +69,7 @@ button {
 #__process__slider {
     min-width: 100%;
     height: var(--ACTIVE_SIZE);
-    margin-top: calc(75px + 8rem);
+    margin-top: calc(75px + 6rem);
     position: absolute;
     padding-left: 4rem;
     padding-right: 4rem;
