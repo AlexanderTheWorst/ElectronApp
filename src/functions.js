@@ -18,14 +18,21 @@
 // }
 
 let slider_index = 0;
-let slider_process_width = 200;
-let active_process_width = 400;
+let slider_process_width = 211;
+let active_process_width = 360;
+
+// let slider_process_width = 120;
+// let active_process_width = 160;
 
 const process_slider_element = document.getElementById('__process__slider')
 
+/*
+    MOVES THE SLIDER TO FOCUS ON THE ACTIVE PROCESS HEADER.
+*/
 function iterateToIndex(index) {
     // let transform = Math.max(index - 1, 0) * slider_process_width + active_process_width + ((index - 1) * 16 + 12) - 36
-    let transform = Math.max(index - 1, 0) * slider_process_width + active_process_width - 16 * 11.5
+    // transform = index == 0 ? 0: Math.max(0, transform)
+    let transform = Math.max(index - 1, 0) * slider_process_width + active_process_width - 16 * 9
     transform = index == 0 ? 16: Math.max(0, transform)
     process_slider_element.style.marginLeft = `-${transform}px`
 
@@ -44,6 +51,9 @@ function iterateToIndex(index) {
     }
 }
 
+/*
+    CREATES A PROCESS HEADER USING INFORMATION GIVEN BY THE BACKEND.
+*/
 function __create__process__header(gameDat) {
     /*
         <div id='__process__header__0' class='__process__header' data-name='Helldivers 2'>
@@ -83,6 +93,9 @@ function __create__process__header(gameDat) {
     document.getElementById('__process__header__extra').append(process__name);
 }
 
+/*
+    PROCESSES THE CLICK OF A HEADER.
+*/
 function __process__click(__process__header) {
     let id = __process__header.parentNode.id;
     id = id.split('__process__header__')[1];
@@ -90,6 +103,9 @@ function __process__click(__process__header) {
     updateSlider();
 }
 
+/*
+    UPDATES THE SLIDER.
+*/
 function updateSlider() {
     iterateToIndex(slider_index);
 }

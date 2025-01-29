@@ -2,8 +2,8 @@
     --SLIDER_TRANSITION_SPEED: 0.2s;
     --HEADER_TRANSITION_SPEED: 0.1s;
 
-    --ACTIVE_SIZE: 400px;
-    --INACTIVE_SIZE: 200px;
+    --ACTIVE_SIZE: 360px;
+    --INACTIVE_SIZE: 211px;
 }
 
 * {
@@ -25,6 +25,15 @@ body::-webkit-scrollbar {
 button {
     background-color: rgb(30, 30, 30);
     border: white;
+}
+
+#__process__subcontainer {
+    width: 100%;
+    height: calc(100vh - 24rem);
+    background-color: #f6f6f6;
+    position: absolute;
+    margin-top: calc(16rem + 8rem);
+    top: 0;
 }
 
 #__container__video {
@@ -60,30 +69,13 @@ button {
 #__process__slider {
     min-width: 100%;
     height: var(--ACTIVE_SIZE);
-    margin-top: 75px;
+    margin-top: calc(75px + 8rem);
     position: absolute;
     padding-left: 4rem;
     padding-right: 4rem;
     display: flex;
 
     transition: margin-left var(--SLIDER_TRANSITION_SPEED);
-
-    .__process__header__extra {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: var(--ACTIVE_SIZE);
-        height: var(--ACTIVE_SIZE);
-
-        .__process__header__name {
-            opacity: 1;
-            transition: 0.2s;
-            position: absolute;
-            bottom: 0;
-            left: 100%;
-            width: max-content;
-        }
-    }
 
     .__process__header {
         position: relative;
