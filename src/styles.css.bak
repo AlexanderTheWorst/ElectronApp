@@ -2,8 +2,8 @@
     --SLIDER_TRANSITION_SPEED: 0.2s;
     --HEADER_TRANSITION_SPEED: 0.1s;
 
-    --ACTIVE_SIZE: 400px;
-    --INACTIVE_SIZE: 200px;
+    --ACTIVE_SIZE: 160px;
+    --INACTIVE_SIZE: 120px;
 }
 
 * {
@@ -37,7 +37,7 @@ button {
 #__process__header__extra {
     position: absolute;
     margin-top: 75px;
-    margin-left: 5rem;
+    margin-left: 4rem;
     width: var(--ACTIVE_SIZE);
     height: var(--ACTIVE_SIZE);
 
@@ -65,6 +65,7 @@ button {
     padding-left: 4rem;
     padding-right: 4rem;
     display: flex;
+    gap: 1rem;
 
     transition: margin-left var(--SLIDER_TRANSITION_SPEED);
 
@@ -90,7 +91,6 @@ button {
         height: var(--INACTIVE_SIZE);
         width: var(--INACTIVE_SIZE);
         transition: var(--HEADER_TRANSITION_SPEED);
-        margin-top: 2rem;
 
         * {
             user-select: none;
@@ -98,6 +98,7 @@ button {
 
         img {
             height: var(--INACTIVE_SIZE);
+            border-radius: 1rem;
             transition: height var(--HEADER_TRANSITION_SPEED);
         }
 
@@ -111,23 +112,8 @@ button {
         }
     }
 
-    .__process__header.__active {
-        position: relative;
-        height: var(--ACTIVE_SIZE);
-        width: var(--ACTIVE_SIZE);
-        transition: var(--HEADER_TRANSITION_SPEED);
-        margin-left: 2rem;
-        margin-right: 2rem;
-        margin-top: 0 !important;
-
-        img {
-            height: var(--ACTIVE_SIZE);
-            box-shadow: none !important;
-        }
-    }
-
     .__process__header::before {
-        /* content: ""; */
+        content: "";
         width: 100%;
         height: 100%;
         padding: 5px;
@@ -135,17 +121,15 @@ button {
         transform: translate(-50%, -50%);
         top: 50%;
         left: 50%;
-        /* 
         border-radius: 1.5rem;
         border: 2px solid white;
         box-shadow: 0 0px 10px rgba(255, 255, 255, 1);
-        */
         transition: var(--HEADER_TRANSITION_SPEED);
         opacity: 0;
     }
 
     .__process__header.__active::before {
-        /* content: ""; */
+        content: "";
         width: 100%;
         height: 100%;
         padding: 5px;
@@ -158,6 +142,18 @@ button {
         box-shadow: 0 0px 10px rgba(255, 255, 255, 1);
         transition: var(--HEADER_TRANSITION_SPEED);
         opacity: 1;
+    }
+
+    .__process__header.__active {
+        position: relative;
+        height: var(--ACTIVE_SIZE);
+        width: var(--ACTIVE_SIZE);
+        transition: var(--HEADER_TRANSITION_SPEED);
+
+        img {
+            height: var(--ACTIVE_SIZE);
+            box-shadow: none !important;
+        }
     }
 }
 

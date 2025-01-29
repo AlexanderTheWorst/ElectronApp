@@ -18,14 +18,15 @@
 // }
 
 let slider_index = 0;
-let slider_process_width = 120;
-let active_process_width = 160;
+let slider_process_width = 200;
+let active_process_width = 400;
 
 const process_slider_element = document.getElementById('__process__slider')
 
 function iterateToIndex(index) {
-    let transform = Math.max(index - 1, 0) * slider_process_width + active_process_width + ((index - 1) * 16 + 12) - 36
-    transform = index == 0 ? 0 : Math.max(0, transform)
+    // let transform = Math.max(index - 1, 0) * slider_process_width + active_process_width + ((index - 1) * 16 + 12) - 36
+    let transform = Math.max(index - 1, 0) * slider_process_width + active_process_width - 16 * 11.5
+    transform = index == 0 ? 16: Math.max(0, transform)
     process_slider_element.style.marginLeft = `-${transform}px`
 
     let active = document.querySelector(`#__process__slider > .__active`);
