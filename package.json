@@ -5,7 +5,7 @@
   "license": "ISC",
   "author": "",
   "type": "commonjs",
-  "main": "main.js",
+  "main": "electron.main.js",
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,5 +14,10 @@
     "@electron/rebuild": "^3.7.1",
     "electron": "^34.0.1",
     "ps-list": "^8.1.1"
+  },
+  "dependencies": {
+    "node-gyp": "^11.0.0",
+    "node-vibrant": "^4.0.3",
+    "steam-acf2json": "^0.1.1"
   }
 }

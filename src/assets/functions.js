@@ -25,6 +25,7 @@ let active_process_width = 360;
 // let active_process_width = 160;
 
 const process_slider_element = document.getElementById('__process__slider')
+let gameData = {}
 
 /*
     MOVES THE SLIDER TO FOCUS ON THE ACTIVE PROCESS HEADER.
@@ -32,8 +33,8 @@ const process_slider_element = document.getElementById('__process__slider')
 function iterateToIndex(index) {
     // let transform = Math.max(index - 1, 0) * slider_process_width + active_process_width + ((index - 1) * 16 + 12) - 36
     // transform = index == 0 ? 0: Math.max(0, transform)
-    let transform = Math.max(index - 1, 0) * slider_process_width + active_process_width - 16 * 9
-    transform = index == 0 ? 16: Math.max(0, transform)
+    let transform = Math.max(index - 1, 0) * slider_process_width + active_process_width - 16 * 8.3
+    transform = index == 0 ? 16 : Math.max(0, transform)
     process_slider_element.style.marginLeft = `-${transform}px`
 
     let active = document.querySelector(`#__process__slider > .__active`);
@@ -62,35 +63,46 @@ function __create__process__header(gameDat) {
         </div>
     */
 
-    let slider = document.querySelectorAll('.__process__header')
+    const { name, exe, appid, accent, icon } = gameDat;
 
-    let container = document.createElement('div')
-    container.id = `__process__header__${slider.length}`
-    container.classList.add('__process__header')
-    if (slider.length == 0) container.classList.add('__active');
-    container.setAttribute('data-name', gameDat.game)
-    container.setAttribute('data-exe', gameDat.exe)
+    const slider = document.querySelectorAll('.__process__header');
+    const [r, g, b] = accent._rgb;
+    const accentColorRGB = `rgba(${r}, ${g}, ${b})`;
 
-    let img = document.createElement('img')
-    img.src = gameDat.icon
-    // img.src = `data:image/png;base64,${gameDat.icon}`;
-    img.alt = gameDat.game
+    // Create the container for the process header
+    const container = document.createElement('div');
+    container.id = `__process__header__${slider.length}`;
+    container.classList.add('__process__header');
+    container.style.setProperty('--ACCENT-COLOR', accentColorRGB);
+    if (slider.length === 0) container.classList.add('__active');
+    container.setAttribute('data-name', name);
+    container.setAttribute('data-appid', appid);
 
-    let button = document.createElement('button')
-    button.class = '__process__header__button'
-    button.onclick = () => __process__click(button)
+    // Create the process icon image
+    const img = document.createElement('img');
+    img.src = icon;
+    img.alt = name;
 
-    container.append(button)
-    container.append(img)
-    document.getElementById('__process__slider').append(container)
+    // Create the process button
+    const button = document.createElement('button');
+    button.classList.add('__process__header__button');
+    button.onclick = () => __process__click(button);
 
-    let name = gameDat.game;
-    let process__name = document.createElement('p');
-    process__name.innerText = name;
-    process__name.classList.add('__process__header__name');
-    if (slider.length == 0) process__name.classList.add('__active');
-    process__name.classList.add(container.id);
-    document.getElementById('__process__header__extra').append(process__name);
+    // Append the button and image to the container
+    container.append(button, img);
+
+    // Append the container to the slider
+    document.getElementById('__process__slider').append(container);
+
+    // Create the process name text
+    const processName = document.createElement('p');
+    processName.innerText = name;
+    processName.classList.add('__process__header__name');
+    if (slider.length === 0) processName.classList.add('__active');
+    processName.classList.add(container.id);
+
+    // Append the process name to the extra section
+    document.getElementById('__process__header__extra').append(processName);
 }
 
 /*
@@ -132,6 +144,6 @@ window.onkeydown = function (event) {
         updateSlider();
     } else if (event.key == 'Enter') {
         let process = document.querySelector(`#__process__header__${slider_index}`)
-        API.launchProcess(process.getAttribute('data-name'), process.getAttribute('data-exe'))
+        API.launchProcess(process.getAttribute('data-appid'))
     }
 }

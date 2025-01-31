@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     updateSlider();
-    
     API.hasLoaded();
 });
 
@@ -18,10 +17,11 @@ window.send = function (data) {
 }
 
 API.onLoaded((event, data) => {
+    gameData = data.games;
     data.games.forEach(game => {
         __create__process__header(game)
-        __create__process__header(game)
-        __create__process__header(game)
+        // __create__process__header(game)
+        // __create__process__header(game)
         console.log(game)
     })
 });

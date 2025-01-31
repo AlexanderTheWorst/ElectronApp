@@ -7,7 +7,7 @@
 }
 
 * {
-    color: white;
+    color: #f6f6f6;
     font-family: Arial, Helvetica, sans-serif;
     padding: 0;
     margin: 0;
@@ -29,10 +29,10 @@ button {
 
 #__process__subcontainer {
     width: 100%;
-    height: calc(100vh - 26rem);
-    background-color: #f6f6f6;
+    min-height: calc(100vh - 450px);
+    background: #f6f6f6;
     position: absolute;
-    margin-top: calc(16rem + 8rem);
+    margin-top: 450px;
     top: 0;
 }
 
@@ -69,7 +69,7 @@ button {
 #__process__slider {
     min-width: 100%;
     height: var(--ACTIVE_SIZE);
-    margin-top: calc(75px + 6rem);
+    margin-top: calc(450px - var(--ACTIVE_SIZE) + calc(var(--INACTIVE_SIZE) / 2) + 2.5rem);
     position: absolute;
     padding-left: 4rem;
     padding-right: 4rem;
@@ -91,6 +91,7 @@ button {
         img {
             height: var(--INACTIVE_SIZE);
             transition: height var(--HEADER_TRANSITION_SPEED);
+            position: absolute;
         }
 
         button {
@@ -119,25 +120,38 @@ button {
     }
 
     .__process__header::before {
-        /* content: ""; */
-        width: 100%;
-        height: 100%;
-        padding: 5px;
+        content: "";
+        width: 80%;
+        height: 80%;
         position: absolute;
-        transform: translate(-50%, -50%);
         top: 50%;
+        margin-top: 50px;
         left: 50%;
-        /* 
-        border-radius: 1.5rem;
-        border: 2px solid white;
-        box-shadow: 0 0px 10px rgba(255, 255, 255, 1);
-        */
+        transform: translate(-50%, -50%);
         transition: var(--HEADER_TRANSITION_SPEED);
+        background: radial-gradient(var(--ACCENT-COLOR), transparent);
+        filter: blur(0);
         opacity: 0;
+        transition: 0.3s;
     }
 
     .__process__header.__active::before {
-        /* content: ""; */
+        content: "";
+        width: 80%;
+        height: 80%;
+        position: absolute;
+        top: 50%;
+        margin-top: 50px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transition: var(--HEADER_TRANSITION_SPEED);
+        background: radial-gradient(var(--ACCENT-COLOR), transparent);
+        filter: blur(20px);
+        opacity: 1;
+        transition: 0.3s !important;
+    }
+
+    /* .__process__header.__active::before {
         width: 100%;
         height: 100%;
         padding: 5px;
@@ -150,7 +164,7 @@ button {
         box-shadow: 0 0px 10px rgba(255, 255, 255, 1);
         transition: var(--HEADER_TRANSITION_SPEED);
         opacity: 1;
-    }
+    } */
 }
 
 #container {
@@ -172,4 +186,15 @@ button {
     font-weight: bold;
     margin: -3rem;
     user-select: none;
+}
+
+
+
+
+#wallpaper {
+    top: 0;
+    width: 100%;
+    height: auto;
+    position: absolute;
+    filter: brightness(0.5)
 }
