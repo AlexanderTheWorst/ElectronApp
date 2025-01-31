@@ -25,3 +25,5 @@ API.onLoaded((event, data) => {
         console.log(game)
     })
 });
+
+API.processLaunched((d1, d2) => console.log(d1, d2))

@@ -30,7 +30,9 @@ let gameData = {}
 /*
     MOVES THE SLIDER TO FOCUS ON THE ACTIVE PROCESS HEADER.
 */
+let wallpaperTimeout;
 function iterateToIndex(index) {
+    // console.log(slider_index, index)
     // let transform = Math.max(index - 1, 0) * slider_process_width + active_process_width + ((index - 1) * 16 + 12) - 36
     // transform = index == 0 ? 0: Math.max(0, transform)
     let transform = Math.max(index - 1, 0) * slider_process_width + active_process_width - 16 * 8.3
@@ -49,6 +51,18 @@ function iterateToIndex(index) {
 
         active.classList.remove('__active');
         target.classList.add('__active');
+
+        document.getElementById('__wallpaper__container').setAttribute('data-switch', 0)
+        void document.getElementById('__wallpaper__container').offsetHeight; // Force reflow to reset the animation
+        document.getElementById('__wallpaper__container').setAttribute('data-switch', 1)
+        document.getElementById('__wallpaper').src = `./assets/wallpapers/${target.getAttribute('data-appid')}.png`
+        // if (wallpaperTimeout) {
+        //     clearTimeout(wallpaperTimeout);
+        //     wallpaperTimeout = null;
+        // }
+        // wallpaperTimeout = setTimeout(() => {
+        //     document.getElementById('__wallpaper__container').setAttribute('data-switch', 0)
+        // }, 1000)
     }
 }
 
@@ -119,29 +133,32 @@ function __process__click(__process__header) {
     UPDATES THE SLIDER.
 */
 function updateSlider() {
-    iterateToIndex(slider_index);
+    iterateToIndex(slider_index)
 }
 
 let lastTimestamp = 0;
 window.onkeydown = function (event) {
     if ((event.key == 'ArrowRight' || event.key == 'ArrowLeft') && (Date.now() - lastTimestamp) >= 150) {
+        let copy_index = slider_index;
         switch (event.key) {
             case ('ArrowLeft'):
-                slider_index--;
+                copy_index--;
                 break;
             case ('ArrowRight'):
-                slider_index++;
+                copy_index++;
                 break;
         }
 
         lastTimestamp = Date.now();
 
-        slider_index = Math.max(
+        copy_index = Math.max(
             0,
-            Math.min(document.querySelectorAll('.__process__header').length - 1, slider_index)
+            Math.min(document.querySelectorAll('.__process__header').length - 1, copy_index)
         )
-
-        updateSlider();
+        if (copy_index !== slider_index) {
+            slider_index = copy_index;
+            updateSlider();
+        }
     } else if (event.key == 'Enter') {
         let process = document.querySelector(`#__process__header__${slider_index}`)
         API.launchProcess(process.getAttribute('data-appid'))

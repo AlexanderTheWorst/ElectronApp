@@ -2,9 +2,9 @@ const { Vibrant } = require('node-vibrant/node');
 const { ipcRenderer, globalShortcut, webContents } = require('electron');
 const { app, BrowserWindow, ipcMain } = require('electron/main');
 const { spawn, exec } = require('node:child_process');
+const { windows__getInstalledSteamGames, getSteamInstallDir } = require('./steam.functions');
 const path = require('node:path');
 const fs = require('fs');
-const acfParser = require('steam-acf2json');
 const Monitor = require('./monitor.main');
 
 const processMonitor = new Monitor();
@@ -39,7 +39,7 @@ const createWindow = async () => {
     if (!gameDat) return;
     let { name, exe, installdir, accent } = gameDat;
 
-    const steamPath = 'C:\\Program Files (x86)\\Steam\\steam.exe';
+    const steamPath = `${await getSteamInstallDir()}\\steam.exe`;
     const launchCommand = `"${steamPath}" -silent -applaunch ${appid}`;
 
     const child = exec(launchCommand, {
@@ -47,10 +47,12 @@ const createWindow = async () => {
       cwd: installdir,
     })
 
-    const pid = await getPid(exe);
-    const process = { name, pid }
-    openProcesses.push(process)
-    console.log(process)
+    getPid(exe).then(pid => {
+      const process = { name, pid }
+      openProcesses.push(process)
+      console.log(process)
+      win.webContents.send('processLaunched', gameDat, process)
+    }).catch(err => console.log(err))
   });
 
   processMonitor.on('processClosed', (closed) => {
@@ -77,12 +79,28 @@ app.whenReady().then(() => {
 // Function to get the process PID
 async function getPid(exeName) {
   return new Promise((resolve, reject) => {
-    processMonitor.on('processStarted', function processStarted(process) {
-      if (process.name === exeName) {
-        resolve(process.pid);
-        processMonitor.removeListener('processStarted', processStarted);
+    try {
+      getSteamInstallDir();
+
+      function processStarted(process) {
+        if (process.name === exeName) {
+          clearTimeout(timeout)
+          processMonitor.removeListener('processStarted', processStarted);
+          resolve(process.pid);
+        }
       }
-    });
+
+      let timeout = setTimeout(() => {
+        processMonitor.removeListener('processStarted', processStarted);
+        clearTimeout(timeout)
+        reject("Timeout!")
+      }, 30 * 1000)
+
+      processMonitor.on('processStarted', processStarted);
+    } catch (err) {
+      console.log(err.message)
+      reject('Is steam installed?')
+    }
   });
 }
 
@@ -143,6 +161,7 @@ async function getGames() {
   for (const game of steamGames) {
     const { appid, name, installdir } = game;
     let exe = findMainGameExe(installdir);
+    console.log(installdir, exe)
     if (!exe) continue;
 
     let icon = path.join('assets', 'icons', `${appid}.png`);
@@ -155,32 +174,4 @@ async function getGames() {
   }
 
   return sorted;
-}
-
-// Fetch installed Steam games using PowerShell
-function windows__getInstalledSteamGames() {
-  return new Promise((resolve, reject) => {
-    let steamPath = 'C:\\Program Files (x86)\\Steam\\steamapps';
-    exec(
-      `powershell.exe -Command "Get-ChildItem -Path '${steamPath}' -Filter '*.acf' | Select-Object -ExpandProperty Name"`,
-      (error, stdout, stderr) => {
-        if (error) {
-          console.error(`Error: ${error.message}`);
-          reject(error);
-        }
-
-        let games = [];
-        let manifests = stdout.trim().split('\r\n');
-        manifests.forEach((file) => {
-          let appstate = acfParser.decode(
-            fs.readFileSync(path.join(steamPath, file), { flag: 'r', encoding: 'utf-8' })
-          ).AppState;
-          let { name, appid, installdir } = appstate;
-          installdir = path.join(steamPath, 'common', installdir);
-          games.push({ name, appid, installdir });
-        });
-        resolve(games);
-      }
-    );
-  });
 }

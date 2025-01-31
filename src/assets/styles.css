@@ -1,5 +1,5 @@
 :root {
-    --SLIDER_TRANSITION_SPEED: 0.2s;
+    --SLIDER_TRANSITION_SPEED: 0.125s;
     --HEADER_TRANSITION_SPEED: 0.1s;
 
     --ACTIVE_SIZE: 360px;
@@ -130,7 +130,7 @@ button {
         transform: translate(-50%, -50%);
         transition: var(--HEADER_TRANSITION_SPEED);
         background: radial-gradient(var(--ACCENT-COLOR), transparent);
-        filter: blur(0);
+        filter: blur(30px);
         opacity: 0;
         transition: 0.3s;
     }
@@ -146,7 +146,7 @@ button {
         transform: translate(-50%, -50%);
         transition: var(--HEADER_TRANSITION_SPEED);
         background: radial-gradient(var(--ACCENT-COLOR), transparent);
-        filter: blur(20px);
+        filter: blur(30px);
         opacity: 1;
         transition: 0.3s !important;
     }
@@ -189,12 +189,39 @@ button {
 }
 
 
+#__wallpaper__container {
+    width: 100%;
+}
 
-
-#wallpaper {
+#__wallpaper {
     top: 0;
     width: 100%;
     height: auto;
     position: absolute;
-    filter: brightness(0.5)
+}
+
+#__wallpaper__container[data-switch="1"] {
+    animation: wallpaperSwitchColor 1s ease-out forwards;
+}
+
+@keyframes wallpaperSwitchColor {
+    0% {
+        filter: brightness(0);
+    }
+    100% {
+        filter: brightness(0.5);
+    }
+}
+
+#__wallpaper__container[data-switch="1"] img {
+    animation: wallpaperSwitchSize 1s ease-out forwards;
+}
+
+@keyframes wallpaperSwitchSize {
+    0% {
+        transform: scale(1.2);  /* Use transform: scale() for scaling */
+    }
+    100% {
+        transform: scale(1);
+    }
 }

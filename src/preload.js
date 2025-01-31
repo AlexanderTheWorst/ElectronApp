@@ -13,5 +13,5 @@ contextBridge.exposeInMainWorld('API', {
   launchProcess: (processName, processDir) => ipcRenderer.invoke('launchProcess', processName, processDir),
 
   onLoaded: (callback) => ipcRenderer.on('loaded', (_event, data) => callback(_event, data)),
-  processLaunched: (callback) => ipcRenderer.on('processLaunched', (_event, data) => callback(_event, data)),
+  processLaunched: (callback) => ipcRenderer.on('processLaunched', (_event, gameData, processData) => callback(gameData, processData)),
 })
